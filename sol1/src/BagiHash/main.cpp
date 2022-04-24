@@ -11,6 +11,10 @@
 #include "Definitions.h"
 #include "CoverageCalculator.h"
 #include "SolutionProcessor.h"
+#include <thread>
+#include <array>
+#include <mutex>
+#define NR_THREADS 18
 
 using namespace std;
 
@@ -74,7 +78,8 @@ public:
 			// Go over the routers already placed(and the initial cell of the backbone)
 			for (auto router : router_queue)
 			{
-				for (unsigned int radius = 10; radius < 100; radius += 5)
+				mutex modify_best_result_mtx;
+				auto get_best_result_for_given_radius = [&](unsigned int radius)
 				{
 					Matrix matrix = get_matrix(router, radius);
 					query_result matrix_max = st.get_max(matrix);
@@ -88,14 +93,28 @@ public:
 
 						double score = actual_coverage * 0.75 + ((200 - distance) / 2 * 0.25);
 
+						modify_best_result_mtx.lock();
 						if ((placement_cost <= remaining_budget) && (!best_result.has_value() || score > best_result.value().second))
 						{
 							best_result = make_pair(matrix_max, score);
 							best_result_cost = placement_cost;
 							best_result_maps_to = router;
 						}
+						modify_best_result_mtx.unlock();
 					}
+				};
+
+				unsigned int radius = 10;
+				array<thread, NR_THREADS> compute_best_result_th;
+				for (size_t index = 0; index < NR_THREADS; ++index)
+				{
+					compute_best_result_th[index] = thread(get_best_result_for_given_radius, radius);
+					radius += 5;
 				}
+
+				for (auto& th : compute_best_result_th)
+					th.join();
+					
 				count++;
 				if (count >= 5 && best_result.has_value())
 					break;
