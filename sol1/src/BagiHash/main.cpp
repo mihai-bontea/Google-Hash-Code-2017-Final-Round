@@ -17,6 +17,7 @@
 #define NR_THREADS 18
 
 using namespace std;
+unsigned long long final_score = 0;
 
 class Solver
 {
@@ -25,6 +26,7 @@ private:
 	SegTree2D& st;
 	CoverageCalculator& coverage_calculator;
 	unique_ptr<unique_ptr<bool[]>[]> is_covered;
+	unsigned int nr_cells_covered = 0;
 
 	Matrix get_matrix(Point middle, unsigned int radius) const
 	{
@@ -39,7 +41,12 @@ private:
 
 	unsigned int get_actual_coverage(query_result qr) const
 	{
-		return qr.first;
+		auto cells_covered_by_router = coverage_calculator.get_covered_cells(qr.second);
+		unsigned int overlap = 0;
+		for (auto cell : cells_covered_by_router)
+			if (is_covered[cell.first][cell.second])
+				++overlap;
+		return cells_covered_by_router.size() - overlap;
 	}
 
 	unsigned int get_distance(Point a, Point b) const
@@ -126,12 +133,21 @@ public:
 				router_queue.push_front(best_result.value().first.second);
 				remaining_budget -= best_result_cost;
 				st.update(best_result.value().first.second);
+
+				auto cells_covered_by_router = coverage_calculator.get_covered_cells(best_result.value().first.second);
+				for (auto cell : cells_covered_by_router)
+					if (!is_covered[cell.first][cell.second])
+					{
+						is_covered[cell.first][cell.second] = true;
+						++nr_cells_covered;
+					}
 			}
 			else
-			{
 				break;
-			}
 		}
+		unsigned long long score = 1000 * nr_cells_covered + remaining_budget;
+		final_score += score;
+		cout << "Cells covered: " << nr_cells_covered << ", Score: " << score << "\n\n";
 		return routers_in_solution;
 	}
 };
@@ -160,5 +176,6 @@ int main()
 		auto processed_solution = SolutionProcessor::process(data, raw_solution);
 		data.write_to_file(out_prefix + input_file.substr(0, (input_file.find('.'))), processed_solution);
 	}
+	cout << "Final score = " << final_score << '\n';
 	return 0;
 }
