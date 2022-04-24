@@ -23,6 +23,7 @@ class Solver
 private:
 	const Data& data;
 	SegTree2D& st;
+	CoverageCalculator& coverage_calculator;
 	unique_ptr<unique_ptr<bool[]>[]> is_covered;
 
 	Matrix get_matrix(Point middle, unsigned int radius) const
@@ -50,7 +51,7 @@ private:
 	}
 
 public:
-	Solver(const Data& data, SegTree2D& st): data{data}, st{st}
+	Solver(const Data& data, SegTree2D& st, CoverageCalculator &coverage_calculator): data{data}, st{st}, coverage_calculator{coverage_calculator}
 	{
 		is_covered = make_unique<unique_ptr<bool[]>[]>(data.nr_rows);
 		for (size_t index = 0; index < data.nr_rows; ++index)
@@ -147,11 +148,12 @@ int main()
 		cout << "Now working on " << input_file;
 		Data data(in_prefix + input_file);
 		cout << ". Input processed.\n";
-	
+		
+		CoverageCalculator coverage_calculator(data);
 		//  coverage[i][j] == x means that if you'd put a router at coords (i, j) it would cover x blocks
-		auto coverage = CoverageCalculator::determine_coverage(data);
+		auto coverage = coverage_calculator.determine_coverage();
 		SegTree2D st(coverage, data.nr_rows, data.nr_columns);
-		Solver solver(data, st);
+		Solver solver(data, st, coverage_calculator);
 		coverage.reset();
 
 		auto raw_solution = solver.solve();
