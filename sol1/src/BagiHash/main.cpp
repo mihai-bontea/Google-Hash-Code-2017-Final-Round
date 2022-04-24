@@ -99,7 +99,7 @@ public:
 						const unsigned int distance = get_distance(router, matrix_max.second);
 						const unsigned int placement_cost = distance * data.backbone_cost + data.router_cost;
 
-						double score = actual_coverage * 0.75 + ((200 - distance) / 2 * 0.25);
+						double score = actual_coverage * 0.60 + ((200 - distance) / 2 * 0.40); // 69
 
 						modify_best_result_mtx.lock();
 						if ((placement_cost <= remaining_budget) && (!best_result.has_value() || score > best_result.value().second))
@@ -117,14 +117,14 @@ public:
 				for (size_t index = 0; index < NR_THREADS; ++index)
 				{
 					compute_best_result_th[index] = thread(get_best_result_for_given_radius, radius);
-					radius += 5;
+					radius += 3;
 				}
 
 				for (auto& th : compute_best_result_th)
 					th.join();
 					
 				count++;
-				if (count >= 5 && best_result.has_value())
+				if (count >= 10 && best_result.has_value())
 					break;
 			}
 			if (best_result.has_value())
