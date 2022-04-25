@@ -42,8 +42,6 @@ private:
 		if (y > mid)
 			right_res = get_max_subtree(tree_index, 2 * node + 1, mid + 1, right, x, y);
 
-		//cout << left << " " << right << "| " << x << " " << y << endl;
-
 		if (!left_res.has_value())
 		{
 			assert(right_res.has_value());
@@ -91,7 +89,6 @@ public:
 
 	query_result get_max(Matrix mat_coords) const
 	{
-		//cout << mat_coords.first.second << " " << mat_coords.second.second << endl;
 		assert(mat_coords.first.first < mat_coords.second.first);
 		assert(mat_coords.first.second < mat_coords.second.second);
 		assert(mat_coords.second.first <= n);

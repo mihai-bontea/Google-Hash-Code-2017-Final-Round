@@ -164,10 +164,12 @@ int main()
 		cout << "Now working on " << input_file;
 		Data data(in_prefix + input_file);
 		cout << ". Input processed.\n";
+		cout << data.router_radius << '\n';
 		
 		CoverageCalculator coverage_calculator(data);
 		//  coverage[i][j] == x means that if you'd put a router at coords (i, j) it would cover x blocks
 		auto coverage = coverage_calculator.determine_coverage();
+
 		SegTree2D st(coverage, data.nr_rows, data.nr_columns);
 		Solver solver(data, st, coverage_calculator);
 		coverage.reset();
