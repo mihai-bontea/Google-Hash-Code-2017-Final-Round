@@ -18,6 +18,7 @@
 
 using namespace std;
 unsigned long long final_score = 0;
+unsigned long long total_overlap = 0;
 
 class Solver
 {
@@ -71,6 +72,7 @@ public:
 	map<Point, Point> solve()
 	{
 		unsigned int remaining_budget = data.budget;
+		unsigned int solution_overlap = 0;
 		map<Point, Point> routers_in_solution;
 		deque<Point> router_queue;
 		router_queue.push_front(data.initial_cell);
@@ -81,6 +83,7 @@ public:
 			Point best_result_maps_to;
 			assert(!best_result.has_value());
 			unsigned int best_result_cost = 0;
+			unsigned int best_result_overlap = 0;
 			
 			int count = 0;
 			// Go over the routers already placed(and the initial cell of the backbone)
@@ -96,6 +99,8 @@ public:
 					if (routers_in_solution.find(matrix_max.second) == routers_in_solution.end())
 					{
 						unsigned int actual_coverage = get_actual_coverage(matrix_max);
+						unsigned int overlap = matrix_max.first - actual_coverage;
+
 						const unsigned int distance = get_distance(router, matrix_max.second);
 						const unsigned int placement_cost = distance * data.backbone_cost + data.router_cost;
 
@@ -107,6 +112,7 @@ public:
 							best_result = make_pair(matrix_max, score);
 							best_result_cost = placement_cost;
 							best_result_maps_to = router;
+							best_result_overlap = overlap;
 						}
 						modify_best_result_mtx.unlock();
 					}
@@ -141,13 +147,16 @@ public:
 						is_covered[cell.first][cell.second] = true;
 						++nr_cells_covered;
 					}
+				solution_overlap += best_result_overlap;
 			}
 			else
 				break;
 		}
 		unsigned long long score = 1000 * nr_cells_covered + remaining_budget;
 		final_score += score;
-		cout << "Cells covered: " << nr_cells_covered << ", Score: " << score << "\n\n";
+		total_overlap += solution_overlap;
+		cout << "Cells covered: " << nr_cells_covered << ", Score: " << score << "\n";
+		cout << "Cells overlap: " << solution_overlap << ", Potential score loss: " << (solution_overlap * 1000) << "\n\n";
 		return routers_in_solution;
 	}
 };
@@ -164,7 +173,6 @@ int main()
 		cout << "Now working on " << input_file;
 		Data data(in_prefix + input_file);
 		cout << ". Input processed.\n";
-		cout << data.router_radius << '\n';
 		
 		CoverageCalculator coverage_calculator(data);
 		//  coverage[i][j] == x means that if you'd put a router at coords (i, j) it would cover x blocks
@@ -179,5 +187,6 @@ int main()
 		data.write_to_file(out_prefix + input_file.substr(0, (input_file.find('.'))), processed_solution);
 	}
 	cout << "Final score = " << final_score << '\n';
+	cout << "Total cell overlaps = " << total_overlap << ", Potential score loss = " << (total_overlap * 1000) << '\n';
 	return 0;
 }
