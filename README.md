@@ -29,12 +29,12 @@ are funds left.
 ### Scoring
 
 
-*charleston_road.in: Cells covered = 9117, Score = 9117063
+* charleston_road.in: Cells covered = 9117, Score = 9117063
 
-*lets_go_higher.in: Cells covered = 46618, Score = 46618042
+* lets_go_higher.in: Cells covered = 46618, Score = 46618042
 
-*opera.in: Cells covered = 11240, Score = 11240038
+* opera.in: Cells covered = 11240, Score = 11240038
 
-*rue_de_londres.in: Cells covered = 5565, Score = 5565044
+* rue_de_londres.in: Cells covered = 5565, Score = 5565044
 
 * **Final score**: 72540187
