@@ -16,7 +16,7 @@ This would mean a complexity of **O(N * M * R)** where **R** is the radius of th
 the coverage for 1/12 of the map.
 
 Another query which will be done a lot is, "which position for the router will yield the biggest coverage in my general area?". This can be done by iterating a certain rectangle of the matrix
-computed above, and determining its maximum. However, this scales badly with many queris. For this reason, a **2D Segment Tree** is created, which gets the maximum of any rectangle **[(i1, j1), (i2, j2)]**
+computed above, and determining its maximum. However, this scales badly with many queries. For this reason, a **2D Segment Tree** is created, which gets the maximum of any rectangle **[(i1, j1), (i2, j2)]**
 in **O(log M * N)**.
 
 ### Strategy
