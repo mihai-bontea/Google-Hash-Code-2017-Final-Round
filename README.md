@@ -38,3 +38,5 @@ are funds left.
 * rue_de_londres.in: Cells covered = 5565, Score = 5565044
 
 * **Final score**: 72540187
+
+This solution would have gotten place 48 in the competition. It is pretty flawed due to the fact that as multiple routers are added, this is not reflected in the 2D Segment Tree, which leads to a lot of overlaps with other routers. One fix attempted was to make the 2D Segment Tree hold the first 5 or 10 maximums so that we have more positions to choose from, but this comes at a great memory cost, and the execution time for the large dataset goes from 10 minutes to well over 90 minutes.
