@@ -40,3 +40,28 @@ are funds left.
 * **Final score**: 72540187
 
 This solution would have gotten place 48 in the competition. It is pretty flawed due to the fact that as multiple routers are added, this is not reflected in the 2D Segment Tree, which leads to a lot of overlaps with other routers. One fix attempted was to make the 2D Segment Tree hold the first 5 or 10 maximums so that we have more positions to choose from, but this comes at a great memory cost, and the execution time for the large dataset goes from 10 minutes to well over 90 minutes.
+
+## Solution 2
+
+### Strategy
+
+The building map is iterated, and whenever space allows it, a square of l = **2 * R + 1** is created and stored. This square can be fully covered by a router placed in the middle. From this square, using Lee's algorithm, the rest of the map is 'filled', which means trying to create new adjacent squares(to N,S,E,W). Those squares will make up a **component**, where routers are placed in the middle of each square, and each router is connected by cable to its parent router(the one that spawned it in the Lee's algorithm). This means that within a component: 
+
+* **there is absolutely no overlap**
+
+* **the routers are connected to each other using the least amount of cable**
+
+### Scoring
+
+
+* charleston_road.in: Cells covered = 3087, Score = 3115955
+
+* lets_go_higher.in: Cells covered = 177023, Score = 179161275
+
+* opera.in: Cells covered = 93825, Score = 93846844
+
+* rue_de_londres.in: Cells covered = 11025, Score = 11040966
+
+* **Final score**: 287165040
+
+Apparently, there are not enough open areas to fully use the available funds, so this solution, while better scoring than the first, misses out on many potential cells to cover.
