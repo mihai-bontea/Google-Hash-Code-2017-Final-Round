@@ -1,8 +1,10 @@
-# Google Hash Code 2017 Final Round
+# Google Hash Code 2017 Final Round (Router Placement)
 
 ## Solution 1
 
 ### Representing the data
+
+![Image](https://github.com/user-attachments/assets/bf0b6e9d-055c-4a38-9f9d-a18d715fb25f)
 
 A router can cover a square from the map if there are no walls in the smallest rectangle which contains both the router and the square. Since this will be a common query, an efficient way
 to get the number of walls in any given rectangle is needed.
@@ -28,16 +30,13 @@ are funds left.
 
 ### Scoring
 
-
-* charleston_road.in: Cells covered = 9117, Score = 9117063
-
-* lets_go_higher.in: Cells covered = 46618, Score = 46618042
-
-* opera.in: Cells covered = 11240, Score = 11240038
-
-* rue_de_londres.in: Cells covered = 5565, Score = 5565044
-
-* **Final score**: 72540187
+| File Name          | Score    | Cells Covered |
+|--------------------|---------:|--------------:|
+| charleston_road    | 9117063  |         9117  |
+| lets_go_higher     | 46618042 |        46618  |
+| opera              | 11240038 |        11240  |
+| rue_de_londres.out | 5565044  |         5565  |
+| **Final**          | 72540187 |       72540   |
 
 This solution would have gotten place 48 in the competition. It is pretty flawed due to the fact that as multiple routers are added, this is not reflected in the 2D Segment Tree, which leads to a lot of overlaps with other routers. One fix attempted was to make the 2D Segment Tree hold the first 5 or 10 maximums so that we have more positions to choose from, but this comes at a great memory cost, and the execution time for the large dataset goes from 10 minutes to well over 90 minutes.
 
@@ -53,15 +52,12 @@ The building map is iterated, and whenever space allows it, a square of l = **2 
 
 ### Scoring
 
-
-* charleston_road.in: Cells covered = 3087, Score = 3115955
-
-* lets_go_higher.in: Cells covered = 177023, Score = 179161275
-
-* opera.in: Cells covered = 93825, Score = 93846844
-
-* rue_de_londres.in: Cells covered = 11025, Score = 11040966
-
-* **Final score**: 287165040
+| File Name          | Score    | Cells Covered |
+|--------------------|---------:|--------------:|
+| charleston_road    | 3115955  |         3087  |
+| lets_go_higher     | 179161275|       177023  |
+| opera              | 93846844 |        93825  |
+| rue_de_londres.out | 11040966 |        11025  |
+| **Final**          | 287165040|      284960   |
 
 Apparently, there are not enough open areas to fully use the available funds, so this solution, while better scoring than the first, misses out on many potential cells to cover.
