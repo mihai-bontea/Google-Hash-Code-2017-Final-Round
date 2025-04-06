@@ -1,7 +1,5 @@
 # Google Hash Code 2017 Final Round (Router Placement)
 
-![Image](https://github.com/user-attachments/assets/5cfbf609-c1a1-4e1e-bac4-5b7b07611f43)
-
 ## Solution 1
 
 ### Representing the data
@@ -59,3 +57,10 @@ The building map is iterated, and whenever space allows it, a square of l = **2 
 | **Final**          | 332868118|      330513   |
 
 Apparently, there are not enough open areas to fully use the available funds, so this solution, while better scoring than the first, misses out on many potential cells to cover.
+
+## Visualizer
+
+The visualizer script reads the input and output files, and creates a visual representation of the solutions. The routers are represented by red, and
+the cables are represented by yellow.
+
+![Image](https://github.com/user-attachments/assets/5cfbf609-c1a1-4e1e-bac4-5b7b07611f43)
