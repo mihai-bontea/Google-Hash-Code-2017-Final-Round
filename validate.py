@@ -12,7 +12,7 @@ def read_output_file(filename):
         router_coords = [tuple(map(int, f.readline().split())) for _ in range(nr_router)]
     return backbone_coords, router_coords
 
-solutions = ["sol1", "sol2"]
+solutions = ["sol1", "sol2", "sol2i"]
 input_files = ["charleston_road", "lets_go_higher", "opera", "rue_de_londres"]
 
 for input_file in input_files:
