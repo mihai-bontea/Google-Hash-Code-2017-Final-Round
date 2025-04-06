@@ -71,6 +71,6 @@ Apparently, there are not enough open areas to fully use the available funds, so
 ## Visualizer
 
 The visualizer script reads the input and output files, and creates a visual representation of the solutions. The routers are represented by red, and
-the cables are represented by yellow.
+the cables are represented by yellow. The validator script ensures that the solutions are within budget.
 
 ![Image](https://github.com/user-attachments/assets/5cfbf609-c1a1-4e1e-bac4-5b7b07611f43)
