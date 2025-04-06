@@ -1,6 +1,8 @@
 # Google Hash Code 2017 Final Round (Router Placement)
 
-![Image](https://github.com/user-attachments/assets/46f03c19-ac45-43db-af36-176572b49157)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/46f03c19-ac45-43db-af36-176572b49157" alt="Image" />
+</p>
 
 >Who doesn't love wireless Internet? Millions of people rely on it for productivity and fun in countless cafes, railway stations and public areas of all sorts. For many institutions, ensuring wireless Internet access is now almost as important a feature of building facilities as the access to water and electricity.
 
