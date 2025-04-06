@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap
 from copy import deepcopy
+from matplotlib.colors import ListedColormap
 
 char_to_code = {
     '#': 0,  # wall
@@ -28,7 +28,6 @@ def generate_picture(numeric_map, filename):
     plt.figure(figsize=(40, 40))
     plt.imshow(numeric_map, cmap=cmap, interpolation='bilinear')
     plt.axis('off')
-    # plt.show()
     plt.savefig(filename, bbox_inches='tight', pad_inches=0, dpi=300)
 
 solutions = ["sol1", "sol2"]
@@ -43,11 +42,8 @@ for input_file in input_files:
         try:
             backbone_coords, router_coords = read_output_file(output_file)
             numeric_map_copy = deepcopy(numeric_map)
-            for x, y in backbone_coords:
-                numeric_map_copy[x][y] = 3
-            
-            for x, y in router_coords:
-                numeric_map_copy[x][y] = 4
+            for x, y in backbone_coords: numeric_map_copy[x][y] = 3
+            for x, y in router_coords: numeric_map_copy[x][y] = 4
 
             generate_picture(numeric_map_copy, f"visualizers/{solution}/{input_file}.png")
         except FileNotFoundError:
