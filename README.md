@@ -1,5 +1,7 @@
 # Google Hash Code 2017 Final Round (Router Placement)
 
+![Image](https://github.com/user-attachments/assets/46f03c19-ac45-43db-af36-176572b49157)
+
 >Who doesn't love wireless Internet? Millions of people rely on it for productivity and fun in countless cafes, railway stations and public areas of all sorts. For many institutions, ensuring wireless Internet access is now almost as important a feature of building facilities as the access to water and electricity.
 
 >Typically, buildings are connected to the Internet using a fiber backbone. In order to provide wireless Internet access, wireless routers are placed around the building and connected using fiber cables to the backbone. The larger and more complex the building, the harder it is to pick router locations and decide how to lay down the connecting cables.
