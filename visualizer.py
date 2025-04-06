@@ -26,7 +26,7 @@ def read_output_file(filename):
 def generate_picture(numeric_map, filename):
     cmap = ListedColormap(['#092327', '#00a9a5', '#0b5351', '#ffd166', '#ff0000'])
     plt.figure(figsize=(40, 40))
-    plt.imshow(numeric_map, cmap=cmap, interpolation='bilinear')
+    plt.imshow(numeric_map, cmap=cmap, interpolation='nearest')
     plt.axis('off')
     plt.savefig(filename, bbox_inches='tight', pad_inches=0, dpi=300)
 
@@ -41,11 +41,12 @@ for input_file in input_files:
         output_file = f"output_files/{solution}/{input_file}"
         try:
             backbone_coords, router_coords = read_output_file(output_file)
-            numeric_map_copy = deepcopy(numeric_map)
-            for x, y in backbone_coords: numeric_map_copy[x][y] = 3
-            for x, y in router_coords: numeric_map_copy[x][y] = 4
+            numeric_map_copy = numeric_map.copy()
+            for x, y in backbone_coords:
+                if (x, y) not in router_coords:
+                    numeric_map_copy[x, y] = 3
+            for x, y in router_coords: numeric_map_copy[x, y] = 4
 
             generate_picture(numeric_map_copy, f"visualizers/{solution}/{input_file}.png")
         except FileNotFoundError:
             print(f"Error: File '{output_file}' not found.")
-

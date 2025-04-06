@@ -1,5 +1,7 @@
 # Google Hash Code 2017 Final Round (Router Placement)
 
+![Image](https://github.com/user-attachments/assets/5cfbf609-c1a1-4e1e-bac4-5b7b07611f43)
+
 ## Solution 1
 
 ### Representing the data
@@ -44,20 +46,16 @@ This solution would have gotten place 48 in the competition. It is pretty flawed
 
 ### Strategy
 
-The building map is iterated, and whenever space allows it, a square of l = **2 * R + 1** is created and stored. This square can be fully covered by a router placed in the middle. From this square, using Lee's algorithm, the rest of the map is 'filled', which means trying to create new adjacent squares(to N,S,E,W). Those squares will make up a **component**, where routers are placed in the middle of each square, and each router is connected by cable to its parent router(the one that spawned it in the Lee's algorithm). This means that within a component: 
-
-* **there is absolutely no overlap**
-
-* **the routers are connected to each other using the least amount of cable**
+The building map is iterated, and whenever space allows it, a square of l = **2 * R + 1** is created and stored. This square can be fully covered by a router placed in the middle. From this square, using Lee's algorithm, the rest of the map is 'filled', which means trying to create new adjacent squares(to N,S,E,W). Those squares will make up a **component**, where routers are placed in the middle of each square, and each router is connected by cable to its parent router(the one that spawned it in the Lee's algorithm). This means that within a component **there is absolutely no overlap**. 
 
 ### Scoring
 
 | File Name          | Score    | Cells Covered |
 |--------------------|---------:|--------------:|
-| charleston_road    | 3115955  |         3087  |
-| lets_go_higher     | 179161275|       177023  |
-| opera              | 93846844 |        93825  |
-| rue_de_londres.out | 11040966 |        11025  |
-| **Final**          | 287165040|      284960   |
+| charleston_road    | 9729041  |         9702  |
+| lets_go_higher     | 191416954|       189123  |
+| opera              | 112746861|       112725  |
+| rue_de_londres.out | 18975262 |        18963  |
+| **Final**          | 332868118|      330513   |
 
 Apparently, there are not enough open areas to fully use the available funds, so this solution, while better scoring than the first, misses out on many potential cells to cover.

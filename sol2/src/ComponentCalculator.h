@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 #include "Data.h"
 #include "Definitions.h"
 #include <queue>
@@ -95,7 +96,8 @@ private:
 			{
 				const int new_i = (int)current_router.first + distance_multiplier * di[direction];
 				const int new_j = (int)current_router.second + distance_multiplier * dj[direction];
-				if (are_coords_valid(new_i, new_j) && can_place_router(new_i, new_j))
+				if (are_coords_valid(new_i, new_j) && can_place_router(new_i, new_j) &&
+                    data.building_plan[new_i][new_j] == '.')
 				{
 					const Point new_router = make_pair(new_i, new_j);
 					add_as_visited(new_router);

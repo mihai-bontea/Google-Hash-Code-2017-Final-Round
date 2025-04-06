@@ -20,8 +20,8 @@ public:
 
 	Data(const string filename)
 	{
-		//ifstream fin(filename);
-		InParser fin(filename);
+		ifstream fin(filename);
+//		InParser fin(filename);
 
 		fin >> nr_rows >> nr_columns >> router_radius >> backbone_cost >> router_cost >> budget;
 		fin >> initial_cell.first >> initial_cell.second;
@@ -47,8 +47,10 @@ public:
 
 		auto routers = solution.second;
 		fout << routers.size() << '\n';
-		for (auto router : routers)
-			fout << router.first << " " << router.second << '\n';
+		for (auto router : routers) {
+            assert(building_plan[router.first][router.second] == '.');
+            fout << router.first << " " << router.second << '\n';
+        }
 		fout.close();
 	}
 };
