@@ -68,9 +68,15 @@ The building map is iterated, and whenever space allows it, a square of l = **2 
 
 Apparently, there are not enough open areas to fully use the available funds, so this solution, while better scoring than the first, misses out on many potential cells to cover.
 
+## Solution 2 Improved
+
+The iterations of Lee's algorithm are no longer initiated through a top-down, left-right traversal of the map. Instead, it is done through a spiral traversal, starting from the original fiber backbone position. This ensures a better 'locality' of the routers.
+
+In addition, a **k-d tree** is used to always pick the closest router/backbone to connect a new router to. This way, the least amount of cable is alway used.
+
 ## Visualizer
 
 The visualizer script reads the input and output files, and creates a visual representation of the solutions. The routers are represented by red, and
-the cables are represented by yellow. The validator script ensures that the solutions are within budget.
+the cables are represented by yellow. The validator script checks that the solutions are within budget.
 
-![Image](https://github.com/user-attachments/assets/5cfbf609-c1a1-4e1e-bac4-5b7b07611f43)
+![Image](https://github.com/user-attachments/assets/b6421748-1ec8-4cd0-9ded-21fcddac1757)
