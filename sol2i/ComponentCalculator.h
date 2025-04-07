@@ -100,7 +100,6 @@ private:
                     const Point new_router = make_pair(new_i, new_j);
                     add_as_visited(new_router);
                     routers.push(new_router);
-//                    routers_to_parents.insert(make_pair(new_router, current_router));
                     result.push_back(new_router);
                 }
             }
@@ -171,7 +170,7 @@ public:
                 for (int i = 0; i < steps; ++i) {
                     if (r >= 0 && r < data.nr_rows && c >= 0 && c < data.nr_columns && visited_pos.find(key(r, c)) == visited_pos.end())
                     {
-                        result.push_back({r, c});
+                        result.emplace_back(r, c);
                         visited_pos.insert(key(r, c));
                     }
                     r += dr;
@@ -180,7 +179,7 @@ public:
 
                 dirIndex = (dirIndex + 1) % 4;
             }
-            steps++; // increase spiral size every 2 directions
+            steps++;
         }
 
         return result;
@@ -189,9 +188,7 @@ public:
     vector<vector<Point>> get_components()
     {
         vector<vector<Point>> components;
-//        for (int i = 0; i < data.nr_rows; ++i)
-//            for(int j = 0; j < data.nr_columns; ++j)
-        for (auto [i, j]: get_spiral_pattern())
+        for (const auto& [i, j]: get_spiral_pattern())
         {
             if (!visited[i][j] && data.building_plan[i][j] == '.')
             {

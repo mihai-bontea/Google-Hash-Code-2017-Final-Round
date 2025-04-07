@@ -4,10 +4,6 @@
 
 #include "kdtree.hpp"
 
-//struct Point {
-//    double x, y;
-//};
-
 struct PointAccessor {
     typedef double result_type;
     double operator()(const Point& p, size_t dim) const {
@@ -73,7 +69,6 @@ public:
     pair<set<Point>, set<Point>> process(const vector<Point>& raw_solution)
     {
         int remaining_budget = data.budget;
-//        std::cout << "Initial budget = " << remaining_budget << std::endl;
 
         KDTree::KDTree<2, Point, PointAccessor> tree;
         tree.insert(data.initial_cell);
@@ -101,34 +96,6 @@ public:
             }
         }
         backbone.erase(data.initial_cell);
-//        std::cout << "Remaining budget = " << remaining_budget << "routers.size " << routers.size() << std::endl;
         return make_pair(backbone, routers);
     }
 };
-
-
-//#include "kdtree.hpp"
-//#include <iostream>
-//
-//struct Point {
-//    double x, y;
-//};
-//
-//struct PointAccessor {
-//    typedef double result_type;
-//    double operator()(const Point& p, size_t dim) const {
-//        return dim == 0 ? p.x : p.y;
-//    }
-//};
-//
-//int main() {
-//    KDTree::KDTree<2, Point, PointAccessor> tree;
-//    tree.insert({1.0, 2.0});
-//    tree.insert({3.0, 4.0});
-//    tree.insert({0.0, 0.0});
-//
-//    Point query = {2.5, 3.5};
-//    auto nearest = tree.find_nearest(query);
-//    std::cout << " " << nearest.first->x << " " << nearest.first->y;
-////    std::cout << "Closest: (" << nearest.x << ", " << nearest.y << ")\n";
-//}
