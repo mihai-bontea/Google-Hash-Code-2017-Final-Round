@@ -70,9 +70,21 @@ Apparently, there are not enough open areas to fully use the available funds, so
 
 ## Solution 2 Improved
 
+### Strategy
+
 The iterations of Lee's algorithm are no longer initiated through a top-down, left-right traversal of the map. Instead, it is done through a spiral traversal, starting from the original fiber backbone position. This ensures a better 'locality' of the routers.
 
 In addition, a **k-d tree** is used to always pick the closest router/backbone to connect a new router to. This way, the least amount of cable is alway used.
+
+### Scoring
+
+| File Name          | Score    | Cells Covered |
+|--------------------|---------:|--------------:|
+| charleston_road    | 9729218  |         9702  |
+| lets_go_higher     | 191050052|       188639  |
+| opera              | 117484399|       117450  |
+| rue_de_londres.out | 20742355 |        20727  |
+| **Final**          | 339006024|      336518   |
 
 ## Visualizer
 
