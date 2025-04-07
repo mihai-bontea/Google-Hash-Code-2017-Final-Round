@@ -16,7 +16,7 @@ class SolutionProcessor
 private:
     Data& data;
 
-    static unsigned int get_distance(Point a, Point b)
+    static unsigned int get_distance(const Point& a, const Point& b)
     {
         const int x_dist = abs((int)a.first - (int)b.first);
         const int y_dist = abs((int)a.second - (int)b.second);
@@ -24,15 +24,15 @@ private:
         return max(x_dist, y_dist);
     }
 
-    [[nodiscard]] bool is_valid(Point point) const
+    [[nodiscard]] bool is_valid(const Point& point) const
     {
         return (point.first < data.nr_rows && point.second < data.nr_columns);
     }
 
     vector<Point> get_all_backbone_cells_between_points(const Point& router1, const Point& router2)
     {
-        int di[8] = { 0, 0, 1, -1, -1, 1, 1, -1 };
-        int dj[8] = { 1, -1, 0, 0, 1, -1, 1, -1 };
+        const int di[8] = { 0, 0, 1, -1, -1, 1, 1, -1 };
+        const int dj[8] = { 1, -1, 0, 0, 1, -1, 1, -1 };
 
         vector<Point> result{router1};
         Point current_position = router1;
@@ -43,10 +43,10 @@ private:
             unsigned shortest_distance = NMAX;
             for (unsigned int direction = 0; direction < 8; ++direction)
             {
-                unsigned int new_i = (int)current_position.first + di[direction];
-                unsigned int new_j = (int)current_position.second + dj[direction];
-                Point new_point = make_pair(new_i, new_j);
-                unsigned int new_distance = get_distance(new_point, router2);
+                const int new_i = (int)current_position.first + di[direction];
+                const int new_j = (int)current_position.second + dj[direction];
+                Point new_point = {new_i, new_j};
+                const unsigned int new_distance = get_distance(new_point, router2);
 
                 if (is_valid(new_point) && new_distance < shortest_distance)
                 {
@@ -73,15 +73,13 @@ public:
         KDTree::KDTree<2, Point, PointAccessor> tree;
         tree.insert(data.initial_cell);
 
-        // Creating the backbone
-        set<Point> backbone;
-        set<Point> routers;
+        set<Point> backbone, routers;
 
         for (const auto& router : raw_solution)
         {
             auto [nearest_it, distance] = tree.find_nearest(router);
             auto backbone_cells_between_routers = get_all_backbone_cells_between_points(router, *nearest_it);
-            int cost_to_add = data.router_cost + backbone_cells_between_routers.size() * data.backbone_cost;
+            const int cost_to_add = data.router_cost + backbone_cells_between_routers.size() * data.backbone_cost;
 
             if (cost_to_add <= remaining_budget)
             {
@@ -96,6 +94,6 @@ public:
             }
         }
         backbone.erase(data.initial_cell);
-        return make_pair(backbone, routers);
+        return {backbone, routers};
     }
 };

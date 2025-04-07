@@ -1,9 +1,11 @@
 #pragma once
-#include <unordered_set>
+#include <queue>
+#include <cstring>
 #include <algorithm>
+#include <unordered_set>
+
 #include "Data.h"
 #include "Definitions.h"
-#include <queue>
 
 class ComponentCalculator
 {
@@ -12,9 +14,9 @@ private:
     unique_ptr<unique_ptr<unsigned int[]>[]> nr_coverable_cells;
     unique_ptr<unique_ptr<bool[]>[]> visited;
 
-    bool can_place_router(unsigned int i, unsigned int j)
+    bool can_place_router(int i, int j)
     {
-        const auto compute_rect_sum = [&](Matrix matrix)
+        const auto compute_rect_sum = [&](const Rectangle& matrix)
         {
             // rectangle [(0, 0), (i2, j2)]
             unsigned int result = nr_coverable_cells[matrix.second.first][matrix.second.second];
@@ -35,17 +37,17 @@ private:
         const int upper_left_i = i - data.router_radius;
         const int upper_left_j = j - data.router_radius;
 
-        const unsigned int bottom_right_i = i + data.router_radius;
-        const unsigned int bottom_right_j = j + data.router_radius;
+        const int bottom_right_i = i + data.router_radius;
+        const int bottom_right_j = j + data.router_radius;
 
         // bound-checking
         if (upper_left_i < 0 || upper_left_j < 0 || bottom_right_i >= data.nr_rows || bottom_right_j >= data.nr_columns)
             return false;
 
         // checking if all cells are unvisited
-        for (unsigned int i = upper_left_i; i <= bottom_right_i; ++i)
-            for (unsigned int j = upper_left_j; j <= bottom_right_j; ++j)
-                if (visited[i][j])
+        for (int i1 = upper_left_i; i1 <= bottom_right_i; ++i1)
+            for (int j1 = upper_left_j; j1 <= bottom_right_j; ++j1)
+                if (visited[i1][j1])
                     return false;
 
         const Point upper_left = make_pair(upper_left_i, upper_left_j);
@@ -108,37 +110,6 @@ private:
         return result;
     }
 
-public:
-
-    ComponentCalculator(const Data& data): data{data}
-    {
-        // Allocating memory
-        nr_coverable_cells = make_unique<unique_ptr<unsigned int[]>[]>(data.nr_rows);
-        for (unsigned int index = 0; index < data.nr_rows; ++index)
-            nr_coverable_cells[index] = make_unique<unsigned int[]>(data.nr_columns);
-
-        // Determining the nr of cells which can be covered in any rectangle
-        for (unsigned int i = 0; i < data.nr_rows; ++i)
-            nr_coverable_cells[i][0] = (data.building_plan[i][0] == '.');
-
-        // First, determining line sum
-        for (unsigned int i = 0; i < data.nr_rows; ++i)
-            for (unsigned int j = 1; j < data.nr_columns; ++j)
-                nr_coverable_cells[i][j] = nr_coverable_cells[i][j - 1] + (data.building_plan[i][j] == '.');
-
-        // Second, determining rectangle sum
-        for (unsigned int j = 0; j < data.nr_columns; ++j)
-            for (unsigned int i = 1; i < data.nr_rows; ++i)
-                nr_coverable_cells[i][j] += nr_coverable_cells[i - 1][j];
-
-        visited = make_unique<unique_ptr<bool[]>[]>(data.nr_rows);
-        for (size_t index = 0; index < data.nr_rows; ++index)
-        {
-            visited[index] = make_unique<bool[]>(data.nr_columns);
-            memset(visited[index].get(), 0, data.nr_columns);
-        }
-    }
-
     string key(int r, int c) {
         return to_string(r) + "," + to_string(c);
     }
@@ -183,6 +154,37 @@ public:
         }
 
         return result;
+    }
+
+public:
+
+    ComponentCalculator(const Data& data): data{data}
+    {
+        // Allocating memory
+        nr_coverable_cells = make_unique<unique_ptr<unsigned int[]>[]>(data.nr_rows);
+        for (unsigned int index = 0; index < data.nr_rows; ++index)
+            nr_coverable_cells[index] = make_unique<unsigned int[]>(data.nr_columns);
+
+        // Determining the nr of cells which can be covered in any rectangle
+        for (unsigned int i = 0; i < data.nr_rows; ++i)
+            nr_coverable_cells[i][0] = (data.building_plan[i][0] == '.');
+
+        // First, determining line sum
+        for (unsigned int i = 0; i < data.nr_rows; ++i)
+            for (unsigned int j = 1; j < data.nr_columns; ++j)
+                nr_coverable_cells[i][j] = nr_coverable_cells[i][j - 1] + (data.building_plan[i][j] == '.');
+
+        // Second, determining rectangle sum
+        for (unsigned int j = 0; j < data.nr_columns; ++j)
+            for (unsigned int i = 1; i < data.nr_rows; ++i)
+                nr_coverable_cells[i][j] += nr_coverable_cells[i - 1][j];
+
+        visited = make_unique<unique_ptr<bool[]>[]>(data.nr_rows);
+        for (size_t index = 0; index < data.nr_rows; ++index)
+        {
+            visited[index] = make_unique<bool[]>(data.nr_columns);
+            memset(visited[index].get(), 0, data.nr_columns);
+        }
     }
 
     vector<vector<Point>> get_components()

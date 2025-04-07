@@ -1,7 +1,8 @@
 #pragma once
+#include <set>
 #include <iostream>
 #include <fstream>
-#include <set>
+
 #include "Definitions.h"
 
 using namespace std;
@@ -12,12 +13,12 @@ private:
 
 public:
 
-    unsigned int nr_rows, nr_columns, router_radius, backbone_cost, router_cost, budget;
-    pair<unsigned int, unsigned int> initial_cell;
+    int nr_rows, nr_columns, router_radius, backbone_cost, router_cost, budget;
+    Point initial_cell;
     unique_ptr<unique_ptr<char[]>[]> building_plan;
 
 
-    Data(const string filename)
+    Data(const string& filename)
     {
         ifstream fin(filename);
 
@@ -35,20 +36,15 @@ public:
                 fin >> building_plan[i][j];
     }
 
-    void write_to_file(const string filename, pair<set<Point>, set<Point>> solution)
+    void write_to_file(const string& filename, const set<Point>& backbone, const set<Point>& routers) const
     {
         ofstream fout(filename);
-        auto backbone = solution.first;
         fout << backbone.size() << '\n';
-        for (auto cell : backbone)
+        for (const auto& cell : backbone)
             fout << cell.first << " " << cell.second << '\n';
 
-        auto routers = solution.second;
         fout << routers.size() << '\n';
-        for (auto router : routers) {
-            assert(building_plan[router.first][router.second] == '.');
+        for (const auto& router : routers)
             fout << router.first << " " << router.second << '\n';
-        }
-        fout.close();
     }
 };

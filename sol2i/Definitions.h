@@ -1,5 +1,4 @@
 #pragma once
 
-using Matrix = std::pair < std::pair<unsigned int, unsigned int>, std::pair<unsigned int, unsigned int>>;
-using query_result = std::pair<unsigned int, std::pair<unsigned int, unsigned int>>;
-using Point = std::pair<unsigned int, unsigned int>;
+using Point = std::pair<int, int>;
+using Rectangle = std::pair<Point, Point>;
