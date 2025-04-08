@@ -42,11 +42,11 @@ are funds left.
 
 | File Name          | Score    | Cells Covered |
 |--------------------|---------:|--------------:|
-| charleston_road    | 9117063  |         9117  |
-| lets_go_higher     | 46618042 |        46618  |
-| opera              | 11240038 |        11240  |
-| rue_de_londres.out | 5565044  |         5565  |
-| **Final**          | 72540187 |       72540   |
+| charleston_road    | 9,117,063  |         9,117  |
+| lets_go_higher     | 46,618,042 |        46,618  |
+| opera              | 11,240,038 |        11,240  |
+| rue_de_londres.out | 5,565,044  |         5,565  |
+| **Final**          | 72,540,187 |       72,540   |
 
 This solution would have gotten place 48 in the competition. It is pretty flawed due to the fact that as multiple routers are added, this is not reflected in the 2D Segment Tree, which leads to a lot of overlaps with other routers. One fix attempted was to make the 2D Segment Tree hold the first 5 or 10 maximums so that we have more positions to choose from, but this comes at a great memory cost, and the execution time for the large dataset goes from 10 minutes to well over 90 minutes.
 
@@ -60,11 +60,11 @@ The building map is iterated, and whenever space allows it, a square of l = **2 
 
 | File Name          | Score    | Cells Covered |
 |--------------------|---------:|--------------:|
-| charleston_road    | 9729041  |         9702  |
-| lets_go_higher     | 191416954|       189123  |
-| opera              | 112746861|       112725  |
-| rue_de_londres.out | 18975262 |        18963  |
-| **Final**          | 332868118|      330513   |
+| charleston_road    | 9,729,163  |         9,702  |
+| lets_go_higher     | 191,464,887|       189,123  |
+| opera              | 112,753,822|       112,725  |
+| rue_de_londres.out | 18,976,428 |        18,963  |
+| **Final**          | 332,924,300|      330,513   |
 
 Apparently, there are not enough open areas to fully use the available funds, so this solution, while better scoring than the first, misses out on many potential cells to cover.
 
