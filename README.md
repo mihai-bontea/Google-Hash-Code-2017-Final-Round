@@ -48,7 +48,7 @@ are funds left.
 | rue_de_londres.out | 5,565,044  |         5,565  |
 | **Final**          | 72,540,187 |       72,540   |
 
-This solution would have gotten place 48 in the competition. It is pretty flawed due to the fact that as multiple routers are added, this is not reflected in the 2D Segment Tree, which leads to a lot of overlaps with other routers. One fix attempted was to make the 2D Segment Tree hold the first 5 or 10 maximums so that we have more positions to choose from, but this comes at a great memory cost, and the execution time for the large dataset goes from 10 minutes to well over 90 minutes.
+This solution is pretty flawed due to the fact that as multiple routers are added, this is not reflected in the 2D Segment Tree, which leads to a lot of overlaps with other routers. One fix attempted was to make the 2D Segment Tree hold the first 5 or 10 maximums so that we have more positions to choose from, but this comes at a great memory cost, and the execution time for the large dataset goes from 10 minutes to well over 90 minutes.
 
 ## Solution 2
 
@@ -86,9 +86,31 @@ In addition, a **k-d tree** is used to always pick the closest router/backbone t
 | rue_de_londres.out | 20742355 |        20727  |
 | **Final**          | 339006024|      336518   |
 
+## Solution 3
+
+### Strategy
+
+The previous solution is used as a starting point. After inserting the 'perfect' routers, a map is created(and continuously updated), which, for each *(i, j)* pair, holds the amount of positions that a router placed there could cover.
+
+Then, this map is iterated in parallel(rows are distributed equally between multiple threads), and a priority queue is being populated. For each *(i, j)* pair, its priority in the queue is determined by the formula **nr_cells * 1000 - (router_cost + distance * backbone_cost)**. **nr_cells** here is the number of cells that a router placed there could cover, and **distance** is the distance to the closest router/backbone already placed(fetched efficiently with the help of the k-d tree).
+
+With the help of this priority queue, routers are added, as long as they don't overlap with other routers already placed from the same batch, and as long as the budget allows it.
+
+### Scoring
+
+| File Name          | Score    | Cells Covered |
+|--------------------|---------:|--------------:|
+| charleston_road    | 20,628,699 |     20,607  |
+| lets_go_higher     | 278,670,067|    276,479  |
+| opera              | 168,168,036|    168,168  |
+| rue_de_londres.out | 54,022,084 |     54,022  |
+| **Final**          | 521,488,886|   519,276   |
+
+This solution would have been #48 in the competition, and is reasonably fast(~10 seconds for the largest map).
+
 ## Visualizer
 
 The visualizer script reads the input and output files, and creates a visual representation of the solutions. The routers are represented by red, and
-the cables are represented by yellow. The validator script checks that the solutions are within budget.
+the cables are represented by yellow. The validator script checks that the solutions satisfy the requirements, and computes the score.
 
 ![Image](https://github.com/user-attachments/assets/b6421748-1ec8-4cd0-9ded-21fcddac1757)
