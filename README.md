@@ -80,11 +80,11 @@ In addition, a **k-d tree** is used to always pick the closest router/backbone t
 
 | File Name          | Score    | Cells Covered |
 |--------------------|---------:|--------------:|
-| charleston_road    | 9729218  |         9702  |
-| lets_go_higher     | 191050052|       188639  |
-| opera              | 117484399|       117450  |
-| rue_de_londres.out | 20742355 |        20727  |
-| **Final**          | 339006024|      336518   |
+| charleston_road    | 9,729,218  |         9,702  |
+| lets_go_higher     | 191,050,052|       188,639  |
+| opera              | 117,484,399|       117,450  |
+| rue_de_londres.out | 20,742,355 |        20,727  |
+| **Final**          | 339,006,024|      336,518   |
 
 ## Solution 3
 
