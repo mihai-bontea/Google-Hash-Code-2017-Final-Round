@@ -28,7 +28,7 @@ def count_cells_covered(router_coords, char_map, router_radius):
                         cells_covered += 1
     return cells_covered
 
-solutions = ["sol1", "sol2", "sol2i"]
+solutions = ["sol1", "sol2", "sol2i", "sol3"]
 scores = {key: {} for key in solutions}
 input_files = ["charleston_road", "lets_go_higher", "opera", "rue_de_londres"]
 

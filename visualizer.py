@@ -30,7 +30,7 @@ def generate_picture(numeric_map, filename):
     plt.axis('off')
     plt.savefig(filename, bbox_inches='tight', pad_inches=0, dpi=300)
 
-solutions = ["sol1", "sol2", "sol2i"]
+solutions = ["sol1", "sol2", "sol2i", "sol3"]
 input_files = ["charleston_road", "lets_go_higher", "opera", "rue_de_londres"]
 
 for input_file in input_files:
