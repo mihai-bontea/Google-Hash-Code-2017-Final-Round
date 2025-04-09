@@ -1,5 +1,3 @@
-import numpy as np
-
 def read_output_file(filename):
     with open(filename, 'r') as f:
         nr_backbone = int(f.readline())
@@ -53,6 +51,9 @@ for input_file in input_files:
                 for x, y in router_coords:
                     assert(char_map[x][y] != '#' and char_map[x][y] != '-')
                     assert((x, y) in backbone_coords)
+                
+                # placing another backbone on the original backbone cell is redundant
+                assert((backbone_x, backbone_y) not in backbone_coords)
 
                 # Get the number of cells covered by a router
                 cells_covered = count_cells_covered(router_coords, char_map, router_radius)
