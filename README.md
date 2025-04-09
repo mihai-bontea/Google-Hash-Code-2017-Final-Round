@@ -94,7 +94,7 @@ The previous solution is used as a starting point. After inserting the 'perfect'
 
 Then, this map is iterated in parallel(rows are distributed equally between multiple threads), and a priority queue is being populated. For each *(i, j)* pair, its priority in the queue is determined by the formula **nr_cells * 1000 - (router_cost + distance * backbone_cost)**. **nr_cells** here is the number of cells that a router placed there could cover, and **distance** is the distance to the closest router/backbone already placed(fetched efficiently with the help of the k-d tree).
 
-With the help of this priority queue, routers are added, as long as they don't overlap with other routers already placed from the same batch, and as long as the budget allows it.
+Using this priority queue, routers are added, as long as they don't overlap with other routers already placed from the same batch, and as long as the budget allows it.
 
 ### Scoring
 
